@@ -20,7 +20,7 @@ public class playerMovement : MonoBehaviour
         direction = movementValue.Get<float>();
         if(direction != 0) //flipping left-right
         {
-            transform.localScale = new Vector3(6.25f * direction, 6.25f, 1f);
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * direction, transform.localScale.y, 1f);
         }
     }
     private void OnJump()
