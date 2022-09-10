@@ -1044,7 +1044,7 @@ GameObject:
   - component: {fileID: 1699834149}
   - component: {fileID: 1699834150}
   - component: {fileID: 1699834151}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Slime_Lad_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1162,7 +1162,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1699834145}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a30ce7190b69b8ac7828d1349c5bfc8d, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
