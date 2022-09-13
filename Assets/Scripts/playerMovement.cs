@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
 public class playerMovement : MonoBehaviour
 {
@@ -15,14 +15,14 @@ public class playerMovement : MonoBehaviour
     {
         rb.velocity = new Vector2(direction * speed, rb.velocity.y);
     }
-    private void OnMove(InputValue movementValue)
+/*    private void OnMove(InputValue movementValue)
     {
         direction = movementValue.Get<float>();
         if(direction != 0) //flipping left-right
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * direction, transform.localScale.y, 1f);
         }
-    }
+    }*/
     private void OnJump()
     {
         if(isGrounded())
