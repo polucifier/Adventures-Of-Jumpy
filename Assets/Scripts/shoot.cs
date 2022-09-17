@@ -1,70 +1,56 @@
-using System.Collections;
+//using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class shoot : MonoBehaviour
 {
-    private float delay = 0.1f;
-    private float maxDragDistance = 2f;
     private Rigidbody2D rb;
-    private SpringJoint2D sj;
-    private Rigidbody2D slingRb;
-    private LineRenderer lr;
-    private bool isPressed = false;
+    [SerializeField] private LineRenderer lr;
+    [SerializeField] private float force;
+    private float angle = 0f;
+    private bool direction;
+    private Vector3[] positions = new Vector3[2];
+    private Vector2 dirVec;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        sj = GetComponent<SpringJoint2D>();
-        lr = GetComponent<LineRenderer>();
-        slingRb = sj.connectedBody;
         lr.enabled = false;
     }
     private void FixedUpdate()
     {
-        if(isPressed)
-        {
-            Drag();
-        }
+        CalcAngle(angle);
+        dirVec = new Vector2(Mathf.Cos(angle*Mathf.PI/180), Mathf.Sin(angle*Mathf.PI/180));
+        positions[0] = rb.position;
+        positions[1] = new Vector3(dirVec.x, dirVec.y, 0f)*1.5f + positions[0];
+        lr.SetPositions(positions);
+        lr.enabled = true;
+
         if(Input.GetButtonDown("reload"))
         {
             SceneManager.LoadScene(0);
         }
-    }
-    private void Drag()
-    {
-        Vector3[] positions = new Vector3[2]; // passing positions to the lr
-        positions[0] = rb.position;
-        positions[1] = slingRb.position;
-        lr.SetPositions(positions);
-
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //drag behavior
-        float distance = Vector2.Distance(mousePos, slingRb.position);
-        if(distance > maxDragDistance)
+        if(Input.GetButtonDown("Jump"))
         {
-            Vector2 direction = (mousePos - slingRb.position).normalized;
-            rb.position = slingRb.position + direction * maxDragDistance;
+            rb.AddForce(dirVec * force);
+        }
+    }
+    private void CalcAngle(float prevAngle)
+    {
+        if(prevAngle == 0f)
+        {
+            direction = true; // true == up
+        }
+        if(prevAngle == 180f)
+        {
+            direction = false;
+        }
+        if(direction)
+        {
+            angle += 2f;
         }
         else
         {
-            rb.position = mousePos;
+            angle -= 2f;
         }
-    }
-    private void OnMouseDown()
-    {
-        isPressed = true;
-        rb.isKinematic = true;
-        lr.enabled = true;
-    }
-    private void OnMouseUp()
-    {
-        isPressed = false;
-        rb.isKinematic = false;
-        StartCoroutine(Release());
-        lr.enabled = false;
-    }
-    private IEnumerator Release()
-    {
-        yield return new WaitForSeconds(delay);
-        sj.enabled = false;
     }
 }
