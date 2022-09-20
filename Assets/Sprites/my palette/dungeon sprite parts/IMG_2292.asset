@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Surfaces_2_withoutBg_3
+  m_Name: IMG_2292
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 2140436789, guid: 6fbb72cd034042b4b92218bd64cd4f1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7c491eb6404cb4e13981e32c974befd9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

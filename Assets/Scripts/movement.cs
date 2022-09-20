@@ -18,7 +18,7 @@ public class movement : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown("Fire1"))
         {
             rb.AddForce(dirVec * force);
         }
