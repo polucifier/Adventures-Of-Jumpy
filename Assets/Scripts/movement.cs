@@ -3,24 +3,44 @@ using UnityEngine.SceneManagement;
 
 public class movement : MonoBehaviour
 {
-    [SerializeField] private Transform pointer;
+    [SerializeField] private GameObject pointer;
     [SerializeField] private float force;
+    [SerializeField] private float cooldown;
     [SerializeField] private Rigidbody2D[] rigidbodies2D = new Rigidbody2D[5];
     private Vector2 dirVec;
+    private float nextJump;
+    private SpriteRenderer pointerSr;
+    private void Awake()
+    {
+        nextJump = 0f;
+        pointerSr = pointer.GetComponent<SpriteRenderer>();
+        pointerSr.enabled = false;
+    }
     private void FixedUpdate()
     {
-        GetDirection();
+        if(isGrounded() && Time.time > nextJump)
+        {
+            GetDirection();
+            if(!pointerSr.enabled)
+            {
+                pointerSr.enabled = true;
+            }
+            if(Input.GetButtonDown("Fire1"))
+            {
+                foreach(Rigidbody2D rb in rigidbodies2D)
+                {
+                    rb.AddForce(dirVec * force);
+                }
+                nextJump = Time.time + cooldown;
+            }
+        }
+        else if(pointerSr.enabled)
+        {
+            pointerSr.enabled = false;
+        }
         if(Input.GetButtonDown("reload"))
         {
             SceneManager.LoadScene(0);
-        }
-        if(Input.GetButtonDown("Fire1") && isGrounded())
-        {
-            //rigidbodies2D[0].AddForce(dirVec * force);
-            foreach(Rigidbody2D rb in rigidbodies2D)
-            {
-                rb.AddForce(dirVec * force);
-            }
         }
     }
     private void GetDirection()
@@ -30,22 +50,24 @@ public class movement : MonoBehaviour
         float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
         if(angle > 0f)
         {
-            pointer.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            pointer.position =  rigidbodies2D[0].position + dirVec;
+            pointer.transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+            pointer.transform.position =  rigidbodies2D[0].position + dirVec;
         }
         else if(angle > -90f)
         {
-            pointer.rotation = Quaternion.AngleAxis(-90f, Vector3.forward);
-            pointer.position =  rigidbodies2D[0].position + new Vector2(1f, 0f);
+            dirVec = Vector2.right;
+            pointer.transform.rotation = Quaternion.AngleAxis(-90f, Vector3.forward);
+            pointer.transform.position =  rigidbodies2D[0].position + dirVec;
         }
         else
         {
-            pointer.rotation = Quaternion.AngleAxis(90f, Vector3.forward);
-            pointer.position =  rigidbodies2D[0].position + new Vector2(-1f, 0f);
+            dirVec = Vector2.left;
+            pointer.transform.rotation = Quaternion.AngleAxis(90f, Vector3.forward);
+            pointer.transform.position =  rigidbodies2D[0].position + dirVec;
         }
     }
     private bool isGrounded()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, 0.5f, LayerMask.GetMask("obstacles"));
+        return Physics2D.Raycast(transform.position, Vector2.down, 0.6f, LayerMask.GetMask("obstacles"));
     }
 }

@@ -1042,8 +1042,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d3485a16f1403c0a7b4ee05e69e2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointer: {fileID: 196301780}
-  force: 200
+  pointer: {fileID: 196301778}
+  force: 300
+  cooldown: 1
   rigidbodies2D:
   - {fileID: 1284218344}
   - {fileID: 1584235169}
