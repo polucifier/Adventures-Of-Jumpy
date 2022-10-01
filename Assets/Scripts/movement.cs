@@ -14,7 +14,6 @@ public class movement : MonoBehaviour
     {
         nextJump = 0f;
         pointerSr = pointer.GetComponent<SpriteRenderer>();
-        pointerSr.enabled = false;
     }
     private void FixedUpdate()
     {
@@ -69,5 +68,9 @@ public class movement : MonoBehaviour
     private bool isGrounded()
     {
         return Physics2D.Raycast(transform.position, Vector2.down, 0.6f, LayerMask.GetMask("obstacles"));
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        SceneManager.LoadScene(0);
     }
 }
