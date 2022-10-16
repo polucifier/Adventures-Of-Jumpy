@@ -6,7 +6,7 @@ public class movement : MonoBehaviour
     [SerializeField] private GameObject pointer;
     [SerializeField] private float force;
     [SerializeField] private float cooldown;
-    [SerializeField] private Rigidbody2D[] rigidbodies2D = new Rigidbody2D[5];
+    //[SerializeField] private Rigidbody2D[] rigidbodies2D = new Rigidbody2D[5];
     private Vector2 dirVec;
     private float nextJump;
     private SpriteRenderer pointerSr;
@@ -26,10 +26,11 @@ public class movement : MonoBehaviour
             }
             if(Input.GetButtonDown("Fire1"))
             {
-                foreach(Rigidbody2D rb in rigidbodies2D)
+                /*foreach(Rigidbody2D rb in rigidbodies2D)
                 {
                     rb.AddForce(dirVec * force);
-                }
+                }*/
+                GetComponent<Rigidbody2D>().AddForce(dirVec * force);
                 nextJump = Time.time + cooldown;
             }
         }
@@ -50,19 +51,22 @@ public class movement : MonoBehaviour
         if(angle > 0f)
         {
             pointer.transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            pointer.transform.position =  rigidbodies2D[0].position + dirVec;
+            //pointer.transform.position =  rigidbodies2D[0].position + dirVec;
+            pointer.transform.position = GetComponent<Rigidbody2D>().position + dirVec;
         }
         else if(angle > -90f)
         {
             dirVec = Vector2.right;
             pointer.transform.rotation = Quaternion.AngleAxis(-90f, Vector3.forward);
-            pointer.transform.position =  rigidbodies2D[0].position + dirVec;
+            //pointer.transform.position =  rigidbodies2D[0].position + dirVec;
+            pointer.transform.position = GetComponent<Rigidbody2D>().position + dirVec;
         }
         else
         {
             dirVec = Vector2.left;
             pointer.transform.rotation = Quaternion.AngleAxis(90f, Vector3.forward);
-            pointer.transform.position =  rigidbodies2D[0].position + dirVec;
+            //pointer.transform.position =  rigidbodies2D[0].position + dirVec;
+            pointer.transform.position = GetComponent<Rigidbody2D>().position + dirVec;
         }
     }
     private bool isGrounded()
