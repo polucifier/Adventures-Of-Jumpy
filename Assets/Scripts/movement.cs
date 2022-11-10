@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class movement : MonoBehaviour
 {
     [SerializeField] private GameObject pointer;
+    [SerializeField] private GameObject partSys;
     [SerializeField] private float force;
     [SerializeField] private float cooldown;
-    //[SerializeField] private Rigidbody2D[] rigidbodies2D = new Rigidbody2D[5];
     private Vector2 dirVec;
     private float nextJump;
     private SpriteRenderer pointerSr;
@@ -75,6 +76,20 @@ public class movement : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        SceneManager.LoadScene(0);
+        if(other.gameObject.name == "exit")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            partSys.transform.position = transform.position;
+            partSys.GetComponent<ParticleSystem>().Play();
+            StartCoroutine(LoadLevelAfterDelay(4));
+        }
+    }
+    IEnumerator LoadLevelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
