@@ -8,15 +8,13 @@ public class movement : MonoBehaviour
     [SerializeField] private float cooldown;
     private float nextJump;
     private Vector2 dirVec;
-    private SpriteRenderer pointerSr;
     private bool isCooldownSet;
     private void Awake()
     {
         nextJump = 0f;
         isCooldownSet = false;
-        pointerSr = pointer.GetComponent<SpriteRenderer>();
     }
-    private void FixedUpdate()
+    private void Update()
     {
         if(isGrounded() && !isCooldownSet)
         {
@@ -48,7 +46,6 @@ public class movement : MonoBehaviour
                 isCooldownSet = false;
             }
         }
-
     }
     private void GetDirection()
     {
