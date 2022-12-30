@@ -16,7 +16,7 @@ public class deathAndTransitionManager : MonoBehaviour
     {
         if(other.gameObject.name == "exit")
         {
-            //AER.FadeToLevel(SceneManager.GetActiveScene().buildIndex + 1);
+            AER.FadeToLevel(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else
         {
@@ -31,3 +31,5 @@ public class deathAndTransitionManager : MonoBehaviour
         AER.FadeToLevel(SceneManager.GetActiveScene().buildIndex);
     }
 }
+
+//this script is level 1 specific

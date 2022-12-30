@@ -5,12 +5,13 @@ public class movement : MonoBehaviour
     [SerializeField] private GameObject pointer;
     [SerializeField] private Animator animator;
     [SerializeField] private float force;
-    [SerializeField] private float cooldown;
+    private float cooldown;
     private float nextJump;
     private Vector2 dirVec;
     private bool isCooldownSet;
     private void Awake()
     {
+        cooldown = 0.2f;
         nextJump = 0f;
         isCooldownSet = false;
     }
@@ -46,6 +47,9 @@ public class movement : MonoBehaviour
                 isCooldownSet = false;
             }
         }
+        Debug.DrawLine(transform.position, transform.position+Vector3.down*0.6f, Color.green);
+        Debug.DrawLine(transform.position, transform.position+Vector3.left*0.8f, Color.green);
+        Debug.DrawLine(transform.position, transform.position+Vector3.right*0.8f, Color.green);
     }
     private void GetDirection()
     {
@@ -72,6 +76,18 @@ public class movement : MonoBehaviour
     }
     private bool isGrounded()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, 0.6f, LayerMask.GetMask("obstacles"));
+        if(Physics2D.Raycast(transform.position, Vector2.down, 0.6f, LayerMask.GetMask("obstacles")))
+        {
+            return true;
+        }
+        else if(Physics2D.Raycast(transform.position, Vector2.right, 0.8f, LayerMask.GetMask("obstacles")))
+        {
+            return true;
+        }
+        else if(Physics2D.Raycast(transform.position, Vector2.left, 0.8f, LayerMask.GetMask("obstacles")))
+        {
+            return true;
+        }
+        return false;
     }
 }
